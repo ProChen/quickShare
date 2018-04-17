@@ -1,6 +1,6 @@
 let expect = require('chai').expect;
 
-const common = require('../checkCabinet/common.js')
+const common = require('../quickShare/common.js')
 
 
 describe('头部校验测试-同步', () => {

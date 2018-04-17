@@ -8,238 +8,25 @@ let mongoAddress = 'mongodb://' + mongoConfig.user + ':' + mongoConfig.password 
 
 
 /**
- * 创建model 用户信息
- * 集合 userInfo
+ * 创建model 信息分享
+ * 集合 shareData
  */
     let entitySchema = mongoose.Schema({
-        name: {
+        data: {
             type: String,
             required: true
         },
-        phone: {
-            type: String,
-            required: true
-        },
-        password: {
-            type: String,
-            required: true
-        },
-    });
-    let userInfoModel = mongoose.model('userInfo', entitySchema, 'userInfo');
-
-
-/**
- * 创建model 箱格租用单价
- * 集合 cabinetPrice
- */
-    entitySchema = mongoose.Schema({
-        cabinet_id: {
-            type: String,
-            required: true
-        },
-        bigBox: {
-            type: Number,
-            required: true
-        },
-        mediumBox: {
-            type: Number,
-            required: true
-        },
-        smallBox: {
+        code: {
             type: Number,
             required: true
         }
     });
-    let cabinetPriceModel = mongoose.model('cabinetPrice', entitySchema, 'cabinetPrice');
-
-
-/**
- * 创建model 柜子租用押金
- * 集合 cabinetDeposit
- */
-    entitySchema = mongoose.Schema({
-        cabinet_id: {
-            type: String,
-            required: true
-        },
-        deposit: {
-            type: Number,
-            required: true
-        }
-    });
-    let cabinetDepositModel = mongoose.model('cabinetDeposit', entitySchema, 'cabinetDeposit');
-
-/**
- * 创建model 用户押金余额
- * 集合 userDeposit
- */
-    entitySchema = mongoose.Schema({
-        userPhone: {
-            type: String,
-            required: true
-        },
-        deposit: {
-            type: Number,
-            required: true
-        }
-    });
-    let userDepositModel = mongoose.model('userDeposit', entitySchema, 'userDeposit');
-
-/**
- * 创建model 用户租用信息
- * 集合 userRentInfo
- */
-    entitySchema = mongoose.Schema({
-        rentTime: {
-            rentHour: {
-                type: Number,
-                required: true
-            },
-            rentMinute: {
-                type: Number,
-                required: true
-            },
-            rentSecond: {
-                type: Number,
-                required: true
-            }
-        },
-        location: {
-            address: {
-                type: String,
-                required: true
-            },
-            longitude: {
-                type: String,
-                required: true
-            },
-            latitude: {
-                type: String,
-                required: true
-            }
-        },
-        userPhone: {
-            type: String,
-            required: true
-        },
-        cabinet_id: {
-            type: String,
-            required: true
-        },
-        box_no: {
-            type: Number,
-            required: true
-        },
-        box_style: {
-            type: String,
-            required: true
-        },
-        startTime: {
-            type: String,
-            required: true
-        },
-        endTime: {
-            type: String,
-            required: true
-        },
-        cost: {
-            type: Number,
-            required: true
-        }
-    });
-    let userRentInfoModel = mongoose.model('userRentInfo', entitySchema, 'userRentInfo');
-
-/**
- * 创建model 用户租用信息
- * 集合 userRentLog
- */
-    entitySchema = mongoose.Schema({
-        rentTime: {
-            rentHour: {
-                type: Number,
-                required: true
-            },
-            rentMinute: {
-                type: Number,
-                required: true
-            },
-            rentSecond: {
-                type: Number,
-                required: true
-            }
-        },
-        location: {
-            address: {
-                type: String,
-                required: true
-            },
-            longitude: {
-                type: String,
-                required: true
-            },
-            latitude: {
-                type: String,
-                required: true
-            }
-        },
-        userPhone: {
-            type: String,
-            required: true
-        },
-        cabinet_id: {
-            type: String,
-            required: true
-        },
-        box_no: {
-            type: Number,
-            required: true
-        },
-        box_style: {
-            type: String,
-            required: true
-        },
-        startTime: {
-            type: String,
-            required: true
-        },
-        endTime: {
-            type: String,
-            required: true
-        },
-        cost: {
-            type: Number,
-            required: true
-        }
-    });
-    let userRentLogModel = mongoose.model('userRentLog', entitySchema, 'userRentLog');
-
-/**
- * 创建model 用户押金余额
- * 集合 userSuggest
- */
-    entitySchema = mongoose.Schema({
-        userPhone: {
-            type: String,
-            required: true
-        },
-        userSuggestion: {
-            type: String,
-            required: true
-        }
-    });
-    let userSuggestModel = mongoose.model('userSuggest', entitySchema, 'userSuggest');
-
+    let shareDataModel = mongoose.model('shareData', entitySchema, 'shareData');
 
 /********************************************
  * 以上为集合和model的定义,以后每增加一个集合，就要修改CURD4个函数，加入对应的内容(switch里面修改)
  * 创建好的集合model有：
- * userInfoModel
- * cabinetPriceModel
- * cabinetDepositModel
- * userDepositModel
- * userRentInfoModel
- * userRentLogModel
- * userSuggestModel
+ * shareDataModel
  * 
  * 以下数据库CURD操作
  ******************************************/
@@ -260,8 +47,8 @@ function createDoc(mongoModel,mongoDoc) {
             console.log("mongodb geeku connect.");
             //model 选择
             switch (mongoModel) {
-                case 'userInfoModel':
-                    entityDoc = new userInfoModel(mongoDoc);
+                case 'shareDataModel':
+                    entityDoc = new shareDataModel(mongoDoc);
                     entityDoc.save(function (err, doc) {
                         if (err) {
                             reject(err);
@@ -270,71 +57,9 @@ function createDoc(mongoModel,mongoDoc) {
                         resolve(doc);
                     })
                     break;
-                case 'cabinetPriceModel':
-                    entityDoc = new cabinetPriceModel(mongoDoc);
-                    entityDoc.save(function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('插入数据成功');
-                        resolve(doc);
-                    })
-                    break;
-                case 'cabinetDepositModel':
-                    entityDoc = new cabinetDepositModel(mongoDoc);
-                    entityDoc.save(function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('插入数据成功');
-                        resolve(doc);
-                    })
-                    break;
-                case 'userDepositModel':
-                    entityDoc = new userDepositModel(mongoDoc);
-                    entityDoc.save(function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('插入数据成功');
-                        resolve(doc);
-                    })
-                    break;
-                case 'userRentInfoModel':
-                    entityDoc = new userRentInfoModel(mongoDoc);
-                    entityDoc.save(function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('插入数据成功');
-                        resolve(doc);
-                    })
-                    break;
-                case 'userRentLogModel':
-                    entityDoc = new userRentLogModel(mongoDoc);
-                    entityDoc.save(function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('插入数据成功');
-                        resolve(doc);
-                    })
-                    break;
-                case 'userSuggestModel':
-                    entityDoc = new userSuggestModel(mongoDoc);
-                    entityDoc.save(function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('插入数据成功');
-                        resolve(doc);
-                    })
-                    break;
-
                 default:
                     break;
             }
-
         });
     });
 }
@@ -354,8 +79,8 @@ function deleteDoc(mongoModel, conditionDoc) {
             console.log("mongodb geeku connect.");
             //model 选择
             switch (mongoModel) {
-                case 'userInfoModel':
-                    userInfoModel.deleteMany(conditionDoc)
+                case 'shareDataModel':
+                    shareDataModel.deleteMany(conditionDoc)
                         .exec((err, doc) => {
                             if (err) {
                                 reject(err);
@@ -364,71 +89,9 @@ function deleteDoc(mongoModel, conditionDoc) {
                             resolve(doc);
                         });
                     break;
-                case 'cabinetPriceModel':
-                    cabinetPriceModel.deleteMany(conditionDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('删除数据成功');
-                            resolve(doc);
-                        });
-                    break;
-                case 'cabinetDepositModel':
-                    cabinetDepositModel.deleteMany(conditionDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('删除数据成功');
-                            resolve(doc);
-                        });
-                    break;
-                case 'userDepositModel':
-                    userDepositModel.deleteMany(conditionDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('删除数据成功');
-                            resolve(doc);
-                        });
-                    break;
-                case 'userRentInfoModel':
-                    userRentInfoModel.deleteMany(conditionDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('删除数据成功');
-                            resolve(doc);
-                        });
-                    break;
-                case 'userRentLogModel':
-                    userRentLogModel.deleteMany(conditionDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('删除数据成功');
-                            resolve(doc);
-                        });
-                    break;
-                case 'userSuggestModel':
-                    userSuggestModel.deleteMany(conditionDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('删除数据成功');
-                            resolve(doc);
-                        });
-                    break;
-
                 default:
                     break;
             }
-
         });
     });
 }
@@ -450,8 +113,8 @@ function retrieveDoc(mongoModel, conditionDoc, returnDoc) {
             //model选择
             console.log('model选择: ', mongoModel);
             switch (mongoModel) {
-                case 'userInfoModel':
-                    userInfoModel.find(conditionDoc, returnDoc)
+                case 'shareDataModel':
+                    shareDataModel.find(conditionDoc, returnDoc)
                         .exec((err, doc) => {
                             if (err) {
                                 reject(err);
@@ -460,72 +123,9 @@ function retrieveDoc(mongoModel, conditionDoc, returnDoc) {
                             resolve(doc);
                         });
                     break;
-                case 'cabinetPriceModel':
-                    cabinetPriceModel.find(conditionDoc, returnDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('查找数据成功');
-                            resolve(doc);
-                        });
-                    break;
-                case 'cabinetDepositModel':
-                    cabinetDepositModel.find(conditionDoc, returnDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('查找数据成功');
-                            resolve(doc);
-                        });
-                    break;
-                case 'userDepositModel':
-                    userDepositModel.find(conditionDoc, returnDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('查找数据成功');
-                            resolve(doc);
-                        });
-                    break;
-                case 'userRentInfoModel':
-                    userRentInfoModel.find(conditionDoc, returnDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('查找数据成功');
-                            resolve(doc);
-                        });
-                    break;
-                case 'userRentLogModel':
-                    userRentLogModel.find(conditionDoc, returnDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('查找数据成功');
-                            resolve(doc);
-                        });
-                    break;
-                case 'userSuggestModel':
-                    userSuggestModel.find(conditionDoc, returnDoc)
-                        .exec((err, doc) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            console.log('查找数据成功');
-                            resolve(doc);
-                        });
-                    break;
-            
                 default:
                     break;
-            }
-
-            
+            } 
         });
     });
 }
@@ -546,8 +146,8 @@ function updateDoc(mongoModel, conditionDoc,updateDoc) {
             console.log("mongodb geeku connect.");
             //model 选择
             switch (mongoModel) {
-                case 'userInfoModel':
-                    userInfoModel.updateMany(conditionDoc, updateDoc, function (err, doc) {
+                case 'shareDataModel':
+                    shareDataModel.updateMany(conditionDoc, updateDoc, function (err, doc) {
                         if (err) {
                             reject(err);
                         }
@@ -555,68 +155,12 @@ function updateDoc(mongoModel, conditionDoc,updateDoc) {
                         resolve(doc);
                     });
                     break;
-                case 'cabinetPriceModel':
-                    cabinetPriceModel.updateMany(conditionDoc, updateDoc, function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('更新数据成功');
-                        resolve(doc);
-                    });
-                    break;
-                case 'cabinetDepositModel':
-                    cabinetDepositModel.updateMany(conditionDoc, updateDoc, function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('更新数据成功');
-                        resolve(doc);
-                    });
-                    break;
-                case 'userDepositModel':
-                    userDepositModel.updateMany(conditionDoc, updateDoc, function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('更新数据成功');
-                        resolve(doc);
-                    });
-                    break;
-                case 'userRentInfoModel':
-                    userRentInfoModel.updateMany(conditionDoc, updateDoc, function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('更新数据成功');
-                        resolve(doc);
-                    });
-                    break;
-                case 'userRentLogModel':
-                    userRentLogModel.updateMany(conditionDoc, updateDoc, function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('更新数据成功');
-                        resolve(doc);
-                    });
-                    break;
-                case 'userSuggestModel':
-                    userSuggestModel.updateMany(conditionDoc, updateDoc, function (err, doc) {
-                        if (err) {
-                            reject(err);
-                        }
-                        console.log('更新数据成功');
-                        resolve(doc);
-                    });
-                    break;
-
                 default:
                     break;
             }
         });
     });
 }
-
 
 module.exports = {
     createDoc: createDoc,
