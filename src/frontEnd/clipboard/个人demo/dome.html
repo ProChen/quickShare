@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>ZeroClipboard Test</title>
+<meta charset="utf-8">
+<script type="text/javascript" src="clipboard.min.js"></script>
+<script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+</head>
+<body>
+
+<input id="t" type="text"/>数据输出测试<br>
+<textarea id="t2"></textarea><br>
+<!--测试1-->
+<!--button按钮测试，需要复制的值放在属性  data-clipboard-text中<br>-->
+<button class="btn" data-clipboard-text="测试1">点击测试1</button><br><br>
+
+<!--测试2-->
+<!--a按钮测试，需要复制的值放在属性 data-clipboard-text中<br>-->
+<a class="a" data-clipboard-text="测试2">点击测试2</a><br><br>
+
+<!--测试3-->
+<!--测试，通过按钮的data-clipboard-target属性获取指定标签中的值-->
+<div>测试3</div>
+ <button class="btn2" data-clipboard-action="copy" data-clipboard-target="div">点击测试3</button><br><br>
+
+ <!--测试4-->
+ <!--测试，通过按钮的data-clipboard-target属性获取指id的标签中的值中 -->
+ <button class="btn3" data-clipboard-action="copy" data-clipboard-target="#t2">点击测试3</button>
+
+</body>
+</html>
+<script type="text/javascript">
+<!--测试1-->
+$(document).ready(function(){  
+   var clipboard = new Clipboard('.btn'); 
+   clipboard.on('success', function(e) {
+	   console.log(e);
+        alert("测试1复制成功！")
+	    });
+   clipboard.on('error', function(e) {
+	           console.log(e);
+	           alert("测试1复制失败！请手动复制")
+	 	});
+})
+<!--测试2-->
+$(document).ready(function(){  
+   var clipboard1 = new Clipboard('.a'); 
+   clipboard1.on('success', function(e) {
+	   console.log(e);
+        alert("测试2复制成功！")
+	    });
+   clipboard1.on('error', function(e) {
+	           console.log(e);
+	           alert("测试2复制失败！请手动复制")
+	 	});
+})
+<!--测试3-->
+$(document).ready(function(){  
+   var clipboard2 = new Clipboard('.btn2'); 
+   clipboard2.on('success', function(e) {
+	   console.log(e);
+        alert("测试3复制成功！")
+	    });
+   clipboard2.on('error', function(e) {
+	           console.log(e);
+	           alert("测试3复制失败！请手动复制")
+	 	});
+})
+<!--测试4-->
+$(document).ready(function(){  
+   var clipboard3 = new Clipboard('.btn3'); 
+   clipboard3.on('success', function(e) {
+	   console.log(e);
+        alert("测试4复制成功！")
+	    });
+   clipboard3.on('error', function(e) {
+	           console.log(e);
+	           alert("测试4复制失败！请手动复制")
+	 	});
+})
+</script>
